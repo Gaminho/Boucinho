@@ -2,6 +2,7 @@ package com.boucinho.views;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import com.boucinho.R;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,14 +23,15 @@ import androidx.cardview.widget.CardView;
 
 public class CardEvent extends CardView {
 
-    private String mTitle = "";
-    private String mDetail = "";
-    private Date mDate;
+    protected String mTitle = "";
+    protected String mDetail = "";
+    protected String mLocation = "";
+    protected Date mDate;
 
-    private static final int DEFAULT_INNER_PADDING = 20;
+    protected static final int DEFAULT_INNER_PADDING = 20;
 
     private static final SimpleDateFormat mSDF =
-            new SimpleDateFormat("EEEE, MMM dd yyyy", Locale.FRANCE);
+            new SimpleDateFormat("yyyy/MM/dd, E HH'h'mm", Locale.FRANCE);
 
     private LinearLayout mLLEventDetailContainer;
     private RelativeLayout mRLContainer;
@@ -51,7 +52,7 @@ public class CardEvent extends CardView {
         init(context);
     }
 
-    private void init(Context context){
+    protected void init(Context context){
 
         // RelativeLayout = Global container
         mRLContainer = new RelativeLayout(context);
@@ -65,18 +66,14 @@ public class CardEvent extends CardView {
         mLLEventDetailContainer.setPadding(DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING,
                 DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING);
 
-        // Floating Action Button = Handle user actions
-        FloatingActionButton fab = new FloatingActionButton(context);
-        fab.setId(View.generateViewId());
-        fab.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-
         MaterialButton materialButton =
                 new MaterialButton(context, null, R.attr.borderlessButtonStyle);
-        materialButton.setText("More");
+        materialButton.setText(getContext().getString(R.string.more));
+        materialButton.setId(View.generateViewId());
 
         // Layout Params for Event details container
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.START_OF, materialButton.getId());
@@ -87,8 +84,8 @@ public class CardEvent extends CardView {
         rlp2.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
         rlp2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
-        mRLContainer.addView(mLLEventDetailContainer, rlp);
         mRLContainer.addView(materialButton, rlp2);
+        mRLContainer.addView(mLLEventDetailContainer, rlp);
 
         // Init title TextView
         mTVTitle = new TextView(context);
@@ -100,6 +97,9 @@ public class CardEvent extends CardView {
 
         // Init details TextView
         mTVDetail = new TextView(context);
+        mTVDetail.setMaxLines(1);
+        mTVDetail.setSingleLine(true);
+        mTVDetail.setEllipsize(TextUtils.TruncateAt.END);
         mLLEventDetailContainer.addView(mTVDetail, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -159,4 +159,14 @@ public class CardEvent extends CardView {
 
         mTVDate.setText(strDate);
     }
+
+    public LinearLayout getLLEventDetailContainer() {
+        return mLLEventDetailContainer;
+    }
+
+    public RelativeLayout getRLContainer() {
+        return mRLContainer;
+    }
 }
+
+
