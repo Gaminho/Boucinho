@@ -1,6 +1,7 @@
 package com.boucinho.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,7 +27,14 @@ public class CardEventWithPicture extends CardEvent {
 
     public CardEventWithPicture(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CardEventWithPicture);
+        mTitle = attributes.getString(R.styleable.CardEventWithPicture_eventTitle);
+        mDetail = attributes.getString(R.styleable.CardEventWithPicture_eventDetails);
+        mLocation = attributes.getString(R.styleable.CardEventWithPicture_eventLocation);
+        mDate = attributes.getString(R.styleable.CardEventWithPicture_eventDate);
         init(context);
+        attributes.recycle();
     }
 
     public CardEventWithPicture(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {

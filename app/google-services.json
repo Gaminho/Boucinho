@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "196244939990",
+    "firebase_url": "https://boucinho.firebaseio.com",
+    "project_id": "boucinho",
+    "storage_bucket": "boucinho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196244939990:android:25f869b0b0aadbbe",
+        "android_client_info": {
+          "package_name": "com.boucinho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196244939990-3e301ir7mucfeo2nebo7r8l0anatrd5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.boucinho",
+            "certificate_hash": "778fdaacf930245b9a4c40d1f3bc27c6af140e1d"
+          }
+        },
+        {
+          "client_id": "196244939990-5h22lcnh4g0v740eg6654hhp8eiv8ve7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7N8saTl8NT8W_1z-VDprX10_6scXIt5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196244939990-5h22lcnh4g0v740eg6654hhp8eiv8ve7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,9 @@
 package com.boucinho.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +27,12 @@ public class TextWithLabel extends LinearLayout {
 
     public TextWithLabel(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.TextWithLabel);
+        mValue = attributes.getString(R.styleable.TextWithLabel_textValue);
+        mFieldLabel = attributes.getString(R.styleable.TextWithLabel_labelField);
         init(context);
+        attributes.recycle();
     }
 
     public TextWithLabel(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -49,8 +56,12 @@ public class TextWithLabel extends LinearLayout {
         addView(mTVValue, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         if (isInEditMode()){
-            setContent("Label", "Value");
+            mValue = TextUtils.isEmpty(mValue) ? "Value" : mValue;
+            mFieldLabel = TextUtils.isEmpty(mFieldLabel) ? "Label" : mFieldLabel;
         }
+
+        setContent(mFieldLabel, mValue);
+
     }
 
     public String getFieldLabel() {

@@ -1,6 +1,7 @@
 package com.boucinho.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -29,7 +30,6 @@ public class CardEvent extends MaterialCardView {
     private LinearLayout mLLEventDetailContainer;
     private RelativeLayout mRLContainer;
     private TextView mTVTitle, mTVDetail, mTVDate;
-    private MaterialButton mMButton;
 
     public CardEvent(Context context) {
         super(context);
@@ -38,7 +38,14 @@ public class CardEvent extends MaterialCardView {
 
     public CardEvent(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CardEvent);
+        mTitle = attributes.getString(R.styleable.CardEvent_eventTitle);
+        mDetail = attributes.getString(R.styleable.CardEvent_eventDetails);
+        mLocation = attributes.getString(R.styleable.CardEvent_eventLocation);
+        mDate = attributes.getString(R.styleable.CardEvent_eventDate);
         init(context);
+        attributes.recycle();
     }
 
     public CardEvent(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -47,12 +54,17 @@ public class CardEvent extends MaterialCardView {
     }
 
     protected void init(Context context){
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(DEFAULT_INNER_PADDING,DEFAULT_INNER_PADDING,
+                DEFAULT_INNER_PADDING,DEFAULT_INNER_PADDING);
+        setLayoutParams(lp);
 
         // RelativeLayout = Global container
         mRLContainer = new RelativeLayout(context);
         addView(mRLContainer, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
 
         // LinearLayout = Event details container
         mLLEventDetailContainer = new LinearLayout(context);
@@ -61,10 +73,10 @@ public class CardEvent extends MaterialCardView {
         mLLEventDetailContainer.setPadding(DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING,
                 DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING);
 
-        mMButton = new MaterialButton(context, null, R.attr.borderlessButtonStyle);
-        mMButton.setId(View.generateViewId());
-        mMButton.setText(getContext().getString(R.string.more));
-        mMButton.setOnClickListener(view -> {
+        MaterialButton MButton = new MaterialButton(context, null, R.attr.borderlessButtonStyle);
+        MButton.setId(View.generateViewId());
+        MButton.setText(getContext().getString(R.string.more));
+        MButton.setOnClickListener(view -> {
             if(mClickListener != null){
                 mClickListener.clickOnEvent(getEvent());
             }
@@ -75,7 +87,7 @@ public class CardEvent extends MaterialCardView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.START_OF, mMButton.getId());
+        rlp.addRule(RelativeLayout.START_OF, MButton.getId());
 
         // Layout Params for Action Button
         RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
@@ -83,7 +95,7 @@ public class CardEvent extends MaterialCardView {
         rlp2.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
         rlp2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
-        mRLContainer.addView(mMButton, rlp2);
+        mRLContainer.addView(MButton, rlp2);
         mRLContainer.addView(mLLEventDetailContainer, rlp);
 
         // Init title TextView
@@ -113,7 +125,8 @@ public class CardEvent extends MaterialCardView {
         if(isInEditMode()){
             mTitle = context.getString(R.string.event_title);
             mDetail = context.getString(R.string.event_details);
-            mDate = "2019/05/05, dim 12h19";
+            mDate = getContext().getString(R.string.event_date);
+            mLocation = getContext().getString(R.string.event_location);
         }
 
         setTitle(mTitle);

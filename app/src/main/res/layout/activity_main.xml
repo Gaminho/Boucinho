@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    tools:context=".activities.MainActivity">
+    android:padding="8dp">
 
-    <com.boucinho.views.CardEvent
-        android:id="@+id/ce_next_event"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_event_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <com.boucinho.views.CardEventWithPicture
-        android:id="@+id/ce_next_event_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
 
 </LinearLayout>

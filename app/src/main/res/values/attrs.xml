@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="labelField" format="string"/>
+    <attr name="textValue" format="string"/>
+    <attr name="eventTitle" format="string"/>
+    <attr name="eventDetails" format="string"/>
+    <attr name="eventDate" format="string"/>
+    <attr name="eventLocation" format="string"/>
+
+    <declare-styleable name="CardEvent">
+        <attr name="eventTitle"/>
+        <attr name="eventDetails"/>
+        <attr name="eventDate"/>
+        <attr name="eventLocation"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextWithLabel">
+        <attr name="labelField"/>
+        <attr name="textValue"/>
+    </declare-styleable>
+
+    <declare-styleable name="CardEventWithPicture">
+        <attr name="eventTitle"/>
+        <attr name="eventDetails"/>
+        <attr name="eventDate"/>
+        <attr name="eventLocation"/>
+    </declare-styleable>
+
+</resources>

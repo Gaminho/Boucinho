@@ -10,4 +10,6 @@
     <string name="date">Date</string>
     <string name="hour">Heure</string>
     <string name="no_hour_specified">No hour specified</string>
+    <string name="event_date">2019/05/05, dim 12h19</string>
+    <string name="event_location">Event location</string>
 </resources>

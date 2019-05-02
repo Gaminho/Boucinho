@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
@@ -27,7 +29,7 @@
             android:id="@+id/add_event_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences"/>
+            android:inputType="textCapSentences|textMultiLine"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,7 +43,9 @@
             android:id="@+id/add_event_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            app:labelField="Date"
+            app:textValue="@string/no_date_specified" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_event_pick_date"
@@ -49,7 +53,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_weight="1"
-            android:text="Date"/>
+            android:text="@string/date"/>
 
     </LinearLayout>
 
@@ -63,7 +67,9 @@
             android:id="@+id/add_event_hour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            app:labelField="Heure"
+            app:textValue="@string/no_hour_specified" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_event_pick_hour"
@@ -71,7 +77,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_weight="1"
-            android:text="Hour"/>
+            android:text="@string/hour"/>
 
     </LinearLayout>
 
@@ -83,7 +89,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_event_location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences|textMultiLine"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

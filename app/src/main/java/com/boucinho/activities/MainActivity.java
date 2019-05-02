@@ -3,7 +3,7 @@ package com.boucinho.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,35 +13,37 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.boucinho.R;
+import com.boucinho.firebase.FirebaseUtils;
 import com.boucinho.models.Event;
 import com.boucinho.views.CardEvent;
 import com.boucinho.views.CardEventWithPicture;
 import com.boucinho.views.MyAlertDialogBuilder;
 import com.boucinho.views.TextWithLabel;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements CardEvent.ClickOnEventListener {
 
     private Calendar mCalendar;
-    private CardEvent mCENextEvent;
-    private CardEventWithPicture mCENextEventWithPicture;
+    private Event.EventAdapter mEventAdapter;
 
-    private static final Event mEvent = new Event("Ouverture Grizzly",
-            "25 minutes de set, pas de beatbox",
-            new Date(),
-            "Grizzly Pub");
-    private static final Event mEvent2 = new Event("Hydrophobie",
-            "Set de 30 minutes sans Dj Musashi",
-            new Date(),
-            "Hydrophobie club");
+    private List<Event> mEventList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +52,45 @@ public class MainActivity extends AppCompatActivity implements CardEvent.ClickOn
 
         mCalendar = Calendar.getInstance();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 3);
-        mEvent.setDate(calendar.getTime());
-        mCENextEvent = findViewById(R.id.ce_next_event);
-        mCENextEvent.setEvent(mEvent);
-        mCENextEvent.setClickOnEventListener(this);
+        RecyclerView rv = findViewById(R.id.rv_event_list);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        mEventAdapter = new Event.EventAdapter(mEventList);
+        mEventAdapter.setCardEventListener(this);
+        rv.setAdapter(mEventAdapter);
 
-        calendar.set(Calendar.DAY_OF_MONTH, 10);
-        mEvent2.setDate(calendar.getTime());
-        mCENextEventWithPicture = findViewById(R.id.ce_next_event_picture);
-        mCENextEventWithPicture.setImageDrawable(R.mipmap.ic_launcher);
-        mCENextEventWithPicture.setEvent(mEvent2);
-        mCENextEventWithPicture.setClickOnEventListener(this);
+        FirebaseUtils.initDatabase(this);
+
+        FirebaseUtils.getTableReference(FirebaseUtils.Reference.Event).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String key) {
+                Event event = dataSnapshot.getValue(Event.class);
+                event.setID(key);
+                mEventList.add(event);
+                mEventAdapter.notifyDataSetChanged();
+                Log.e(getClass().getName(), "New event added with key: " + key);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String key) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -104,10 +132,9 @@ public class MainActivity extends AppCompatActivity implements CardEvent.ClickOn
     }
 
     private void addDialog(){
-        // Create the CustomAlertDialogBuilder
+
         MyAlertDialogBuilder dialogBuilder = new MyAlertDialogBuilder(this);
         dialogBuilder.setTitle("Ajouter un evenement");
-
 
         View view = getLayoutInflater().inflate(R.layout.dialog_add_event, null);
         dialogBuilder.setView(view);
@@ -152,30 +179,30 @@ public class MainActivity extends AppCompatActivity implements CardEvent.ClickOn
         dialogBuilder.setPositiveButton(getString(android.R.string.ok), (dialog, which) -> {
             Event event = new Event(
                     etTitle.getText().toString(), etDetail.getText().toString(),
-                    mCalendar.getTime(), etLocation.getText().toString());
-            if(validEvent(event)){
-                addEvent(event);
-                dialog.dismiss();
-            } else {
-                Toast.makeText(this, "Invalid event", Toast.LENGTH_SHORT).show();
+                    mCalendar.getTime().getTime(), etLocation.getText().toString());
+            try {
+                Event.verify(event);
+                DatabaseReference ref = FirebaseUtils.getTableReference(FirebaseUtils.Reference.Event);
+                String key = ref.push().getKey();
+                event.setID(key);
+                ref.child(key).setValue(event).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(MainActivity.this,
+                                "Invalid event\n" + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } catch (Event.EventException e) {
+                Toast.makeText(this, "Invalid event\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
         dialogBuilder.setNegativeButton (getString(android.R.string.cancel), null);
         dialogBuilder.setCanceledOnTouchOutside(false);
         dialogBuilder.show();
-    }
-
-    private boolean validEvent(Event event){
-        if(TextUtils.isEmpty(event.getTitle())){
-            return false;
-        } else if(TextUtils.isEmpty(event.getDetails())){
-            return false;
-        } else if(TextUtils.isEmpty(event.getLocation())){
-            return false;
-        } else {
-            return true;
-        }
     }
 
     private void addEvent(Event event){
