@@ -3,4 +3,11 @@
     <string name="event_title">Event title</string>
     <string name="event_details">Event details</string>
     <string name="more">More</string>
+    <string name="details">Details</string>
+    <string name="title">Title</string>
+    <string name="location">Lieu</string>
+    <string name="no_date_specified">No date specified</string>
+    <string name="date">Date</string>
+    <string name="hour">Heure</string>
+    <string name="no_hour_specified">No hour specified</string>
 </resources>

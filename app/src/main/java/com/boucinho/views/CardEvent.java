@@ -11,43 +11,37 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.boucinho.R;
+import com.boucinho.models.Event;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-
-public class CardEvent extends CardView {
+public class CardEvent extends MaterialCardView {
 
     protected String mTitle = "";
     protected String mDetail = "";
     protected String mLocation = "";
-    protected Date mDate;
+    protected String mDate = "";
+    protected Event mEvent;
 
     protected static final int DEFAULT_INNER_PADDING = 20;
 
-    private static final SimpleDateFormat mSDF =
-            new SimpleDateFormat("yyyy/MM/dd, E HH'h'mm", Locale.FRANCE);
-
+    private ClickOnEventListener mClickListener;
     private LinearLayout mLLEventDetailContainer;
     private RelativeLayout mRLContainer;
     private TextView mTVTitle, mTVDetail, mTVDate;
+    private MaterialButton mMButton;
 
-    public CardEvent(@NonNull Context context) {
+    public CardEvent(Context context) {
         super(context);
         init(context);
     }
 
-    public CardEvent(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CardEvent(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CardEvent(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CardEvent(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -59,6 +53,7 @@ public class CardEvent extends CardView {
         addView(mRLContainer, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+
         // LinearLayout = Event details container
         mLLEventDetailContainer = new LinearLayout(context);
         mLLEventDetailContainer.setId(View.generateViewId());
@@ -66,17 +61,21 @@ public class CardEvent extends CardView {
         mLLEventDetailContainer.setPadding(DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING,
                 DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING);
 
-        MaterialButton materialButton =
-                new MaterialButton(context, null, R.attr.borderlessButtonStyle);
-        materialButton.setText(getContext().getString(R.string.more));
-        materialButton.setId(View.generateViewId());
+        mMButton = new MaterialButton(context, null, R.attr.borderlessButtonStyle);
+        mMButton.setId(View.generateViewId());
+        mMButton.setText(getContext().getString(R.string.more));
+        mMButton.setOnClickListener(view -> {
+            if(mClickListener != null){
+                mClickListener.clickOnEvent(getEvent());
+            }
+        });
 
         // Layout Params for Event details container
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.START_OF, materialButton.getId());
+        rlp.addRule(RelativeLayout.START_OF, mMButton.getId());
 
         // Layout Params for Action Button
         RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
@@ -84,7 +83,7 @@ public class CardEvent extends CardView {
         rlp2.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
         rlp2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
-        mRLContainer.addView(materialButton, rlp2);
+        mRLContainer.addView(mMButton, rlp2);
         mRLContainer.addView(mLLEventDetailContainer, rlp);
 
         // Init title TextView
@@ -114,7 +113,7 @@ public class CardEvent extends CardView {
         if(isInEditMode()){
             mTitle = context.getString(R.string.event_title);
             mDetail = context.getString(R.string.event_details);
-            mDate = new Date();
+            mDate = "2019/05/05, dim 12h19";
         }
 
         setTitle(mTitle);
@@ -140,24 +139,24 @@ public class CardEvent extends CardView {
         mTVDetail.setText(mDetail);
     }
 
-    public Date getDate() {
+    public String getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
-        if(null != date){
-            mDate = date;
-        }
+    public void setDate(String date) {
+        mDate = date;
+        mTVDate.setText(mDate);
+    }
 
-        String strDate;
+    public void setEvent(Event event){
+        mEvent = event;
+        setDate(event.getFriendlyDate());
+        setDetail(event.getDetails());
+        setTitle(event.getTitle());
+    }
 
-        try {
-            strDate = null != date ? mSDF.format(date) : "Unknown";
-        } catch (Exception e){
-            strDate = "Unknown";
-        }
-
-        mTVDate.setText(strDate);
+    public Event getEvent() {
+        return mEvent;
     }
 
     public LinearLayout getLLEventDetailContainer() {
@@ -167,6 +166,17 @@ public class CardEvent extends CardView {
     public RelativeLayout getRLContainer() {
         return mRLContainer;
     }
+
+    public ClickOnEventListener getClickListener() {
+        return mClickListener;
+    }
+
+    public void setClickOnEventListener(ClickOnEventListener clickListener) {
+        mClickListener = clickListener;
+    }
+
+    public interface ClickOnEventListener {
+        void clickOnEvent(Event event);
+    }
+
 }
-
-
