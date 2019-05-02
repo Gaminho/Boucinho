@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Boucinho</string>
+    <string name="event_title">Event title</string>
+    <string name="event_details">Event details</string>
+</resources>
