@@ -63,8 +63,7 @@ public class CardEvent extends MaterialCardView {
 
         // RelativeLayout = Global container
         mRLContainer = new RelativeLayout(context);
-        addView(mRLContainer, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(mRLContainer);
 
         // LinearLayout = Event details container
         mLLEventDetailContainer = new LinearLayout(context);
@@ -94,6 +93,7 @@ public class CardEvent extends MaterialCardView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp2.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
         rlp2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+        rlp2.setMarginEnd(DEFAULT_INNER_PADDING);
 
         mRLContainer.addView(MButton, rlp2);
         mRLContainer.addView(mLLEventDetailContainer, rlp);
