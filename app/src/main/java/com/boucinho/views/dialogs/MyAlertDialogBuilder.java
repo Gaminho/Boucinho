@@ -1,4 +1,4 @@
-package com.boucinho.views;
+package com.boucinho.views.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;

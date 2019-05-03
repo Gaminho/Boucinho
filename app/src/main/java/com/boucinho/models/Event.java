@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import com.boucinho.views.CardEvent;
-import com.google.firebase.database.Exclude;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,12 +32,14 @@ public class Event {
         mLocation = location;
     }
 
-    @Exclude
+    @com.google.firebase.firestore.Exclude
+    @com.google.firebase.database.Exclude
     public String getID() {
         return mID;
     }
 
-    @Exclude
+    @com.google.firebase.firestore.Exclude
+    @com.google.firebase.database.Exclude
     public void setID(String ID) {
         mID = ID;
     }
@@ -67,7 +68,8 @@ public class Event {
         mDate = date;
     }
 
-    @Exclude
+    @com.google.firebase.firestore.Exclude
+    @com.google.firebase.database.Exclude
     public void setDate(Date date) {
         mDate = date.getTime();
     }
@@ -80,7 +82,8 @@ public class Event {
         mLocation = location;
     }
 
-    @Exclude
+    @com.google.firebase.firestore.Exclude
+    @com.google.firebase.database.Exclude
     public String getFriendlyDate(){
         if(this.mDate > 0){
             return new SimpleDateFormat("yyyy/MM/dd, E HH'h'mm", Locale.FRANCE).format(this.mDate);
@@ -98,6 +101,14 @@ public class Event {
                 ", mDate=" + mDate +
                 ", mLocation='" + mLocation + '\'' +
                 '}';
+    }
+
+    public void clone(Event eventToClone){
+        this.setID(eventToClone.getID());
+        this.setTitle(eventToClone.getTitle());
+        this.setDetails(eventToClone.getDetails());
+        this.setDate(eventToClone.getDate());
+        this.setLocation(eventToClone.getLocation());
     }
 
     public static void verify(Event event) throws EventException {

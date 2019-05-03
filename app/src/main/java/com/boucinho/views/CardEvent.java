@@ -72,10 +72,10 @@ public class CardEvent extends MaterialCardView {
         mLLEventDetailContainer.setPadding(DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING,
                 DEFAULT_INNER_PADDING, DEFAULT_INNER_PADDING);
 
-        MaterialButton MButton = new MaterialButton(context, null, R.attr.borderlessButtonStyle);
-        MButton.setId(View.generateViewId());
-        MButton.setText(getContext().getString(R.string.more));
-        MButton.setOnClickListener(view -> {
+        MaterialButton mButton = new MaterialButton(context, null, R.attr.borderlessButtonStyle);
+        mButton.setId(View.generateViewId());
+        mButton.setText(getContext().getString(R.string.more));
+        mButton.setOnClickListener(view -> {
             if(mClickListener != null){
                 mClickListener.clickOnEvent(getEvent());
             }
@@ -86,7 +86,7 @@ public class CardEvent extends MaterialCardView {
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.START_OF, MButton.getId());
+        rlp.addRule(RelativeLayout.START_OF, mButton.getId());
 
         // Layout Params for Action Button
         RelativeLayout.LayoutParams rlp2 = new RelativeLayout.LayoutParams(
@@ -95,7 +95,7 @@ public class CardEvent extends MaterialCardView {
         rlp2.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
         rlp2.setMarginEnd(DEFAULT_INNER_PADDING);
 
-        mRLContainer.addView(MButton, rlp2);
+        mRLContainer.addView(mButton, rlp2);
         mRLContainer.addView(mLLEventDetailContainer, rlp);
 
         // Init title TextView

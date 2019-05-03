@@ -12,4 +12,8 @@
     <string name="no_hour_specified">No hour specified</string>
     <string name="event_date">2019/05/05, dim 12h19</string>
     <string name="event_location">Event location</string>
+    <string name="add_an_event">Ajouter un evenement</string>
+    <string name="edit_an_event">Modifier un evenement</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
