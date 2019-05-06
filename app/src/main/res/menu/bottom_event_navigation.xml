@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/upcoming_events"
-        android:icon="@drawable/ic_add_circle_black_24dp"
-        android:title="Add an event"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/upcoming_events"
         app:showAsAction="ifRoom" />
 
     <item android:id="@+id/all_events"
-        android:icon="@drawable/ic_add_circle_black_24dp"
-        android:title="Add an event"
+        android:icon="@drawable/ic_reorder_black_24dp"
+        android:title="@string/all_events"
         app:showAsAction="ifRoom" />
 
 </menu>
