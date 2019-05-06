@@ -25,27 +25,20 @@ public class EditEventDialog extends MyAlertDialogBuilder {
         super(context);
         mListener = listener;
         mEvent = event;
-        initView(context);
     }
 
-    private void initView(Context context) {
+    @Override
+    protected void initView(Context context) {
         setTitle(context.getString(R.string.edit_an_event));
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dialog_add_event, null);
+        View view = inflater.inflate(R.layout.form_add_event, null);
         setView(view);
 
         mTIETTitle = view.findViewById(R.id.add_event_title);
-        mTIETTitle.setText(mEvent.getTitle());
-
         mTIETDetails = view.findViewById(R.id.add_event_detail);
-        mTIETDetails.setText(mEvent.getDetails());
-
         mTIETLocation = view.findViewById(R.id.add_event_location);
-        mTIETLocation.setText(mEvent.getLocation());
-
         mMTPDate = view.findViewById(R.id.mtp_date);
-        mMTPDate.setDate(mEvent.getDate());
 
         setPositiveButton(context.getString(android.R.string.ok), (dialog, which) -> {
 
@@ -66,6 +59,14 @@ public class EditEventDialog extends MyAlertDialogBuilder {
 
         setNegativeButton(context.getString(android.R.string.cancel), null);
         setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    protected void populateView(Context context) {
+        mTIETTitle.setText(mEvent.getTitle());
+        mTIETDetails.setText(mEvent.getDetails());
+        mTIETLocation.setText(mEvent.getLocation());
+        mMTPDate.setDate(mEvent.getDate());
     }
 
     public interface EditEventDialogListener {

@@ -15,9 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Event {
 
+    public enum EventType {
+        Concert, Repetition, Studio, Other
+    }
+
     private String mID;
     private String mTitle;
     private String mDetails;
+    private EventType mType;
     private long mDate;
     private String mLocation = "";
 
@@ -28,6 +33,16 @@ public class Event {
         mID = "";
         mTitle = title;
         mDetails = details;
+        mDate = date;
+        mLocation = location;
+        mType = EventType.Other;
+    }
+
+    public Event(String title, String details, EventType type, long date, String location) {
+        mID = "";
+        mTitle = title;
+        mDetails = details;
+        mType = type;
         mDate = date;
         mLocation = location;
     }
@@ -80,6 +95,14 @@ public class Event {
 
     public void setLocation(String location) {
         mLocation = location;
+    }
+
+    public EventType getType() {
+        return mType != null ? mType : EventType.Other;
+    }
+
+    public void setType(EventType type) {
+        mType = type;
     }
 
     @com.google.firebase.firestore.Exclude

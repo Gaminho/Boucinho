@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
 
 import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
@@ -13,13 +16,12 @@ import com.boucinho.views.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 
-import androidx.annotation.NonNull;
-
 public class AddingEventDialog extends MyAlertDialogBuilder {
 
     private AddingEventDialogListener mListener;
     private TextInputEditText mTIETTitle, mTIETDetails, mTIETLocation;
     private MyTimePicker mMTPDate;
+    private Spinner mSpinnerEventType;
 
     public AddingEventDialog(@NonNull Context context, AddingEventDialogListener listener) {
         super(context);
@@ -35,20 +37,21 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
                 Log.e(getClass().getName(), "No action triggered for event adding failures");
             }
         };
-        initView(context);
     }
 
-    private void initView(Context context) {
+    @Override
+    protected void initView(Context context) {
         setTitle(context.getString(R.string.add_an_event));
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dialog_add_event, null);
+        View view = inflater.inflate(R.layout.form_add_event, null);
         setView(view);
 
         mTIETTitle = view.findViewById(R.id.add_event_title);
         mTIETDetails = view.findViewById(R.id.add_event_detail);
         mTIETLocation = view.findViewById(R.id.add_event_location);
         mMTPDate = view.findViewById(R.id.mtp_date);
+        mSpinnerEventType = view.findViewById(R.id.spinner_event_type);
 
         setPositiveButton(context.getString(android.R.string.ok), (dialog, which) -> {
 
@@ -57,6 +60,19 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
                     mMTPDate.getTimeInMillis(), mTIETLocation.getText().toString());
             try {
                 Event.verify(event);
+                // FIXME
+                String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
+                Event.EventType eventType;
+                if (context.getString(R.string.concert).equals(selectedType)){
+                    eventType = Event.EventType.Concert;
+                } else if (context.getString(R.string.repetition).equals(selectedType)) {
+                    eventType = Event.EventType.Repetition;
+                } else if (context.getString(R.string.studio).equals(selectedType)) {
+                    eventType = Event.EventType.Studio;
+                } else {
+                    eventType = Event.EventType.Other;
+                }
+                event.setType(eventType);
 
                 CollectionReference a = FirestoreUtils.getCollection(FirestoreUtils.Collections.Event);
                 a.add(event).addOnSuccessListener(documentReference ->
@@ -69,6 +85,11 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
 
         setNegativeButton(context.getString(android.R.string.cancel), null);
         setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    protected void populateView(Context context) {
+
     }
 
     public interface AddingEventDialogListener {

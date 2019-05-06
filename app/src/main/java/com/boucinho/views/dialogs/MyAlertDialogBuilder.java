@@ -2,11 +2,12 @@ package com.boucinho.views.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-public class MyAlertDialogBuilder extends AlertDialog.Builder {
+public abstract class MyAlertDialogBuilder extends AlertDialog.Builder {
 
     /**
      * Click listeners
@@ -28,6 +29,7 @@ public class MyAlertDialogBuilder extends AlertDialog.Builder {
 
     public MyAlertDialogBuilder(@NonNull Context context) {
         super(context);
+        initView(context);
     }
 
     public MyAlertDialogBuilder setOnDismissListener (DialogInterface.OnDismissListener listener) {
@@ -89,12 +91,9 @@ public class MyAlertDialogBuilder extends AlertDialog.Builder {
     @Override
     public AlertDialog show() {
         final AlertDialog alertDialog = super.create();
+        populateView(getContext());
 
-        DialogInterface.OnClickListener emptyOnClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) { }
-        };
-
+        DialogInterface.OnClickListener emptyOnClickListener = (dialog, which) -> { };
 
         // Enable buttons (needed for Android 1.6) - otherwise later getButton() returns null
         if (mPositiveButtonText != null) {
@@ -138,6 +137,15 @@ public class MyAlertDialogBuilder extends AlertDialog.Builder {
                     mNeutralButtonListener.onClick(alertDialog, AlertDialog.BUTTON_NEUTRAL));
         }
 
+        alertDialog.getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        alertDialog.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
         return alertDialog;
     }
+
+    protected abstract void initView(Context context);
+    protected abstract void populateView(Context context);
 }

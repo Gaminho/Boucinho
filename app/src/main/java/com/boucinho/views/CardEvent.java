@@ -28,6 +28,7 @@ public class CardEvent extends MaterialCardView {
 
     private ClickOnEventListener mClickListener;
     private LinearLayout mLLEventDetailContainer;
+    private LinearLayout mLLEventColorIndicator;
     private RelativeLayout mRLContainer;
     private TextView mTVTitle, mTVDetail, mTVDate;
 
@@ -61,8 +62,15 @@ public class CardEvent extends MaterialCardView {
                 DEFAULT_INNER_PADDING,DEFAULT_INNER_PADDING);
         setLayoutParams(lp);
 
+        // LinearLayout = Indicator
+        mLLEventColorIndicator = new LinearLayout(context);
+        mLLEventColorIndicator.setLayoutParams(new LinearLayout.LayoutParams(10, ViewGroup.LayoutParams.MATCH_PARENT));
+//        mLLEventColorIndicator.setBackgroundColor(Color.BLACK);
+        addView(mLLEventColorIndicator);
+
         // RelativeLayout = Global container
         mRLContainer = new RelativeLayout(context);
+        mRLContainer.setPadding(10,0,0,0);
         addView(mRLContainer);
 
         // LinearLayout = Event details container
@@ -161,11 +169,34 @@ public class CardEvent extends MaterialCardView {
         mTVDate.setText(mDate);
     }
 
+    public void setEventIndicatorColor(Event.EventType eventType){
+        int color;
+        switch (eventType){
+            case Concert:
+                color = getResources().getColor(R.color.blue);
+                break;
+            case Studio:
+                color = getResources().getColor(R.color.green);
+                break;
+            case Other:
+                color = getResources().getColor(R.color.yellow);
+                break;
+            case Repetition:
+                color = getResources().getColor(R.color.red);
+                break;
+            default:
+                color = getCardBackgroundColor().getDefaultColor();
+                break;
+        }
+        mLLEventColorIndicator.setBackgroundColor(color);
+    }
+
     public void setEvent(Event event){
         mEvent = event;
         setDate(event.getFriendlyDate());
         setDetail(event.getDetails());
         setTitle(event.getTitle());
+        setEventIndicatorColor(event.getType());
     }
 
     public Event getEvent() {

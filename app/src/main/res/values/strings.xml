@@ -16,4 +16,18 @@
     <string name="edit_an_event">Modifier un evenement</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+
+    <!--Event types-->
+    <string name="concert">Concert</string>
+    <string name="repetition">Repetition</string>
+    <string name="studio">Studio</string>
+    <string name="other">Other</string>
+
+    <string name="event_type_prompt">Choisir un type</string>
+    <string-array name="event_types">
+        <item>@string/concert</item>
+        <item>@string/repetition</item>
+        <item>@string/studio</item>
+        <item>@string/other</item>
+    </string-array>
 </resources>
