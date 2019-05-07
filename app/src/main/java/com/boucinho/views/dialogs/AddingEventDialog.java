@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
 import com.boucinho.models.Event;
+import com.boucinho.models.EventType;
 import com.boucinho.views.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
@@ -62,15 +63,15 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
                 Event.verify(event);
                 // FIXME
                 String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
-                Event.EventType eventType;
+                EventType eventType;
                 if (context.getString(R.string.concert).equals(selectedType)){
-                    eventType = Event.EventType.Concert;
+                    eventType = EventType.Concert;
                 } else if (context.getString(R.string.repetition).equals(selectedType)) {
-                    eventType = Event.EventType.Repetition;
+                    eventType = EventType.Repetition;
                 } else if (context.getString(R.string.studio).equals(selectedType)) {
-                    eventType = Event.EventType.Studio;
+                    eventType = EventType.Studio;
                 } else {
-                    eventType = Event.EventType.Other;
+                    eventType = EventType.Other;
                 }
                 event.setType(eventType);
 

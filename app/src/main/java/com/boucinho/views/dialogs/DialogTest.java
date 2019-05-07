@@ -11,14 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.boucinho.R;
-import com.boucinho.models.Event;
+import com.boucinho.models.EventType;
 import com.boucinho.views.FormEvent;
 
 public class DialogTest extends MyAlertDialogBuilder {
 
     private FrameLayout mFLContent;
     private FormEvent mFormEvent;
-    private Event.EventType mCurrentEventType;
+    private EventType mCurrentEventType;
 
     public DialogTest(@NonNull Context context) {
         super(context);
@@ -38,15 +38,15 @@ public class DialogTest extends MyAlertDialogBuilder {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long duration) {
                 String currentSelection = String.valueOf(adapterView.getItemAtPosition(position));
-                Event.EventType eventType = null;
+                EventType eventType = null;
                 if(currentSelection.equals(getContext().getString(R.string.concert))){
-                    eventType = Event.EventType.Concert;
+                    eventType = EventType.Concert;
                 } else if(currentSelection.equals(getContext().getString(R.string.repetition))){
-                    eventType = Event.EventType.Repetition;
+                    eventType = EventType.Repetition;
                 } else if(currentSelection.equals(getContext().getString(R.string.studio))){
-                    eventType = Event.EventType.Studio;
+                    eventType = EventType.Studio;
                 } else {
-                    eventType = Event.EventType.Other;
+                    eventType = EventType.Other;
                 }
                 loadForm(eventType);
                 mCurrentEventType = eventType;
@@ -58,7 +58,7 @@ public class DialogTest extends MyAlertDialogBuilder {
         });
 
         setPositiveButton("Test", (dialogInterface, i) -> {
-            Toast.makeText(getContext(), mFormEvent.getEvent().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), mFormEvent.toString(), Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -68,11 +68,10 @@ public class DialogTest extends MyAlertDialogBuilder {
 
     }
 
-    private void loadForm(Event.EventType eventType){
+    private void loadForm(EventType eventType){
         View view;
         switch (eventType){
             case Concert:
-//                view = LayoutInflater.from(getContext()).inflate(R.layout.form_add_event, null);
                 mFormEvent = new FormEvent(getContext());
                 view = mFormEvent;
                 break;

@@ -4,21 +4,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
 
 import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
 import com.boucinho.models.Event;
+import com.boucinho.models.EventType;
 import com.boucinho.views.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
-
-import androidx.annotation.NonNull;
 
 public class EditEventDialog extends MyAlertDialogBuilder {
 
     private EditEventDialogListener mListener;
     private TextInputEditText mTIETTitle, mTIETDetails, mTIETLocation;
     private MyTimePicker mMTPDate;
+    private Spinner mSpinnerEventType;
     private final Event mEvent;
 
     public EditEventDialog(@NonNull Context context, Event event, @NonNull EditEventDialogListener listener) {
@@ -39,6 +42,7 @@ public class EditEventDialog extends MyAlertDialogBuilder {
         mTIETDetails = view.findViewById(R.id.add_event_detail);
         mTIETLocation = view.findViewById(R.id.add_event_location);
         mMTPDate = view.findViewById(R.id.mtp_date);
+        mSpinnerEventType = view.findViewById(R.id.spinner_event_type);
 
         setPositiveButton(context.getString(android.R.string.ok), (dialog, which) -> {
 
@@ -47,6 +51,19 @@ public class EditEventDialog extends MyAlertDialogBuilder {
                     mMTPDate.getTimeInMillis(), mTIETLocation.getText().toString());
             try {
                 Event.verify(event);
+                // FIXME
+                String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
+                EventType eventType;
+                if (context.getString(R.string.concert).equals(selectedType)){
+                    eventType = EventType.Concert;
+                } else if (context.getString(R.string.repetition).equals(selectedType)) {
+                    eventType = EventType.Repetition;
+                } else if (context.getString(R.string.studio).equals(selectedType)) {
+                    eventType = EventType.Studio;
+                } else {
+                    eventType = EventType.Other;
+                }
+                event.setType(eventType);
 
                 CollectionReference a = FirestoreUtils.getCollection(FirestoreUtils.Collections.Event);
                 a.document(mEvent.getID()).set(event)

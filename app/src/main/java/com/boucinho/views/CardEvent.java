@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.boucinho.R;
 import com.boucinho.models.Event;
+import com.boucinho.models.EventType;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -169,7 +170,7 @@ public class CardEvent extends MaterialCardView {
         mTVDate.setText(mDate);
     }
 
-    public void setEventIndicatorColor(Event.EventType eventType){
+    public void setEventIndicatorColor(EventType eventType){
         int color;
         switch (eventType){
             case Concert:
@@ -184,9 +185,23 @@ public class CardEvent extends MaterialCardView {
             case Repetition:
                 color = getResources().getColor(R.color.red);
                 break;
+            case Radio:
+                color = getResources().getColor(R.color.purple);
+                break;
+            case Atelier:
+                color = getResources().getColor(R.color.blue_green);
+                break;
+            case OpenMic:
+                color = getResources().getColor(R.color.brown);
+                break;
+            case Reunion:
+                color = getResources().getColor(R.color.orange);
+                break;
             default:
                 color = getCardBackgroundColor().getDefaultColor();
                 break;
+
+
         }
         mLLEventColorIndicator.setBackgroundColor(color);
     }

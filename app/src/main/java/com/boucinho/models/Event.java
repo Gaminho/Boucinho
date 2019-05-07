@@ -15,10 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Event {
 
-    public enum EventType {
-        Concert, Repetition, Studio, Other
-    }
-
     private String mID;
     private String mTitle;
     private String mDetails;

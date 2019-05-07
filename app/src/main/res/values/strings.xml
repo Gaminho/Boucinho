@@ -19,8 +19,12 @@
 
     <!--Event types-->
     <string name="concert">Concert</string>
+    <string name="open_mic">Open mic</string>
+    <string name="radio">Radio</string>
     <string name="repetition">Repetition</string>
+    <string name="meeting">Reunion</string>
     <string name="studio">Studio</string>
+    <string name="work">Atelier</string>
     <string name="other">Other</string>
 
     <string name="event_type_prompt">Choisir un type</string>
@@ -30,6 +34,10 @@
         <item>@string/concert</item>
         <item>@string/repetition</item>
         <item>@string/studio</item>
+        <item>@string/radio</item>
+        <item>@string/open_mic</item>
+        <item>@string/meeting</item>
+        <item>@string/work</item>
         <item>@string/other</item>
     </string-array>
 </resources>
