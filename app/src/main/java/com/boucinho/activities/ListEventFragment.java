@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ListEventFragment extends Fragment implements CardEvent.ClickOnEventListener {
 
@@ -147,6 +148,8 @@ public class ListEventFragment extends Fragment implements CardEvent.ClickOnEven
         ((TextWithLabel) view.findViewById(R.id.twl_date)).setContent("Date", event.getFriendlyDate());
         ((TextWithLabel) view.findViewById(R.id.twl_location)).setContent("Lieu", event.getLocation());
         ((TextWithLabel) view.findViewById(R.id.twl_guests)).setContent("Guests", "-");
+        ((TextWithLabel) view.findViewById(R.id.twl_duration))
+                .setContent("Durée", String.format(Locale.FRANCE, "%d minutes", event.getDuration()));
 
         String positiveText = getString(android.R.string.ok);
         builder.setPositiveButton(positiveText, (dialog, which) -> dialog.dismiss());

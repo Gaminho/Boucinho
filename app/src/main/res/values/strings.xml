@@ -30,6 +30,8 @@
     <string name="event_type_prompt">Choisir un type</string>
     <string name="upcoming_events">À venir</string>
     <string name="all_events">Tous</string>
+    <string name="duration">Durée</string>
+    <string name="in_minutes">(en minutes)</string>
     <string-array name="event_types">
         <item>@string/concert</item>
         <item>@string/repetition</item>

@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.boucinho.R;
 import com.boucinho.views.dialogs.AddingEventDialog;
-import com.boucinho.views.dialogs.DialogTest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements

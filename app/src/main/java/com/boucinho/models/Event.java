@@ -3,6 +3,9 @@ package com.boucinho.models;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.boucinho.views.CardEvent;
 
 import java.text.SimpleDateFormat;
@@ -10,14 +13,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class Event {
 
     private String mID;
     private String mTitle;
     private String mDetails;
+    private int mDuration;
     private EventType mType;
     private long mDate;
     private String mLocation = "";
@@ -32,12 +33,23 @@ public class Event {
         mDate = date;
         mLocation = location;
         mType = EventType.Other;
+        mDuration = 0;
     }
 
     public Event(String title, String details, EventType type, long date, String location) {
         mID = "";
         mTitle = title;
         mDetails = details;
+        mType = type;
+        mDate = date;
+        mLocation = location;
+        mDuration = 0;
+    }
+
+    public Event(String title, String details, int duration, EventType type, long date, String location) {
+        mTitle = title;
+        mDetails = details;
+        mDuration = duration;
         mType = type;
         mDate = date;
         mLocation = location;
@@ -79,6 +91,14 @@ public class Event {
         mDate = date;
     }
 
+    public int getDuration() {
+        return mDuration;
+    }
+
+    public void setDuration(int duration) {
+        mDuration = duration;
+    }
+
     @com.google.firebase.firestore.Exclude
     @com.google.firebase.database.Exclude
     public void setDate(Date date) {
@@ -118,6 +138,7 @@ public class Event {
                 ", mTitle='" + mTitle + '\'' +
                 ", mDetails='" + mDetails + '\'' +
                 ", mDate=" + mDate +
+                ", mDuration=" + mDuration +
                 ", mLocation='" + mLocation + '\'' +
                 '}';
     }
@@ -127,18 +148,23 @@ public class Event {
         this.setTitle(eventToClone.getTitle());
         this.setDetails(eventToClone.getDetails());
         this.setDate(eventToClone.getDate());
+        this.setDuration(eventToClone.getDuration());
         this.setLocation(eventToClone.getLocation());
+        this.setType(eventToClone.getType());
     }
 
     public static void verify(Event event) throws EventException {
         if(TextUtils.isEmpty(event.getTitle())){
             throw new EventException("Title can not be null");
-        } else if(TextUtils.isEmpty(event.getDetails())){
-            throw new EventException("Details can not be null");
+//        } else if(TextUtils.isEmpty(event.getDetails())){
+//            throw new EventException("Details can not be null");
         } else if(TextUtils.isEmpty(event.getLocation())){
             throw new EventException("Location can not be null");
-        }
-        else if (event.getDate() <= 0) {
+        } else if(event.getDuration() <= 0){
+            throw new EventException("Duration can not be null");
+        } else if(event.getType() == null){
+            throw new EventException("Type can not be null");
+        } else if (event.getDate() <= 0) {
             throw new EventException("Date can not be null");
         }
     }

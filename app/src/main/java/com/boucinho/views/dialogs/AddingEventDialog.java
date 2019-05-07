@@ -13,6 +13,7 @@ import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
 import com.boucinho.models.Event;
 import com.boucinho.models.EventType;
+import com.boucinho.views.timepickers.DurationPicker;
 import com.boucinho.views.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,6 +24,7 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
     private TextInputEditText mTIETTitle, mTIETDetails, mTIETLocation;
     private MyTimePicker mMTPDate;
     private Spinner mSpinnerEventType;
+    private DurationPicker mDPDuration;
 
     public AddingEventDialog(@NonNull Context context, AddingEventDialogListener listener) {
         super(context);
@@ -53,27 +55,29 @@ public class AddingEventDialog extends MyAlertDialogBuilder {
         mTIETLocation = view.findViewById(R.id.add_event_location);
         mMTPDate = view.findViewById(R.id.mtp_date);
         mSpinnerEventType = view.findViewById(R.id.spinner_event_type);
+        mDPDuration = view.findViewById(R.id.dp_event_duration);
 
         setPositiveButton(context.getString(android.R.string.ok), (dialog, which) -> {
 
+            // FIXME
+            String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
+            EventType eventType;
+            if (context.getString(R.string.concert).equals(selectedType)){
+                eventType = EventType.Concert;
+            } else if (context.getString(R.string.repetition).equals(selectedType)) {
+                eventType = EventType.Repetition;
+            } else if (context.getString(R.string.studio).equals(selectedType)) {
+                eventType = EventType.Studio;
+            } else {
+                eventType = EventType.Other;
+            }
+
             Event event = new Event(
                     mTIETTitle.getText().toString(), mTIETDetails.getText().toString(),
-                    mMTPDate.getTimeInMillis(), mTIETLocation.getText().toString());
+                    mDPDuration.getDuration(), eventType, mMTPDate.getTimeInMillis(),
+                    mTIETLocation.getText().toString());
             try {
                 Event.verify(event);
-                // FIXME
-                String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
-                EventType eventType;
-                if (context.getString(R.string.concert).equals(selectedType)){
-                    eventType = EventType.Concert;
-                } else if (context.getString(R.string.repetition).equals(selectedType)) {
-                    eventType = EventType.Repetition;
-                } else if (context.getString(R.string.studio).equals(selectedType)) {
-                    eventType = EventType.Studio;
-                } else {
-                    eventType = EventType.Other;
-                }
-                event.setType(eventType);
 
                 CollectionReference a = FirestoreUtils.getCollection(FirestoreUtils.Collections.Event);
                 a.add(event).addOnSuccessListener(documentReference ->
