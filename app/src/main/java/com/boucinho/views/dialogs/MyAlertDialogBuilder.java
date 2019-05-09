@@ -29,7 +29,6 @@ public abstract class MyAlertDialogBuilder extends AlertDialog.Builder {
 
     public MyAlertDialogBuilder(@NonNull Context context) {
         super(context);
-        initView(context);
     }
 
     public MyAlertDialogBuilder setOnDismissListener (DialogInterface.OnDismissListener listener) {
@@ -91,7 +90,6 @@ public abstract class MyAlertDialogBuilder extends AlertDialog.Builder {
     @Override
     public AlertDialog show() {
         final AlertDialog alertDialog = super.create();
-        populateView(getContext());
 
         DialogInterface.OnClickListener emptyOnClickListener = (dialog, which) -> { };
 
@@ -145,7 +143,4 @@ public abstract class MyAlertDialogBuilder extends AlertDialog.Builder {
 
         return alertDialog;
     }
-
-    protected abstract void initView(Context context);
-    protected abstract void populateView(Context context);
 }

@@ -171,39 +171,7 @@ public class CardEvent extends MaterialCardView {
     }
 
     public void setEventIndicatorColor(EventType eventType){
-        int color;
-        switch (eventType){
-            case Concert:
-                color = getResources().getColor(R.color.blue);
-                break;
-            case Studio:
-                color = getResources().getColor(R.color.green);
-                break;
-            case Other:
-                color = getResources().getColor(R.color.yellow);
-                break;
-            case Repetition:
-                color = getResources().getColor(R.color.red);
-                break;
-            case Radio:
-                color = getResources().getColor(R.color.purple);
-                break;
-            case Atelier:
-                color = getResources().getColor(R.color.blue_green);
-                break;
-            case OpenMic:
-                color = getResources().getColor(R.color.brown);
-                break;
-            case Reunion:
-                color = getResources().getColor(R.color.orange);
-                break;
-            default:
-                color = getCardBackgroundColor().getDefaultColor();
-                break;
-
-
-        }
-        mLLEventColorIndicator.setBackgroundColor(color);
+        mLLEventColorIndicator.setBackgroundColor(Event.getEventTypeColor(eventType));
     }
 
     public void setEvent(Event event){

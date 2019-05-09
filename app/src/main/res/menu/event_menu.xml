@@ -2,9 +2,24 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/add_event"
-        android:icon="@drawable/ic_add_circle_black_24dp"
-        android:title="Add an event"
+    <item android:id="@+id/update_event"
+        android:icon="@drawable/ic_mode_edit_black_24dp"
+        android:title="Update event"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/remove_event"
+        android:icon="@drawable/ic_delete_black_24dp"
+        android:title="Remove event"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/valid_event"
+        android:icon="@drawable/ic_check_black_24dp"
+        android:title="Save modification"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/cancel_event"
+        android:icon="@drawable/ic_clear_black_24dp"
+        android:title="Cancel modification"
         app:showAsAction="always" />
 
 </menu>

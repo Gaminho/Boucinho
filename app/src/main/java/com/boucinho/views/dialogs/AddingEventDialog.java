@@ -18,7 +18,7 @@ import com.boucinho.views.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 
-public class AddingEventDialog extends MyAlertDialogBuilder {
+public class AddingEventDialog extends MyCustomViewDialogBuilder {
 
     private AddingEventDialogListener mListener;
     private TextInputEditText mTIETTitle, mTIETDetails, mTIETLocation;

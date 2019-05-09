@@ -1,19 +1,24 @@
 package com.boucinho.models;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.boucinho.R;
 import com.boucinho.views.CardEvent;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Event {
+public class Event implements Serializable {
 
     private String mID;
     private String mTitle;
@@ -56,13 +61,11 @@ public class Event {
     }
 
     @com.google.firebase.firestore.Exclude
-    @com.google.firebase.database.Exclude
     public String getID() {
         return mID;
     }
 
     @com.google.firebase.firestore.Exclude
-    @com.google.firebase.database.Exclude
     public void setID(String ID) {
         mID = ID;
     }
@@ -100,7 +103,6 @@ public class Event {
     }
 
     @com.google.firebase.firestore.Exclude
-    @com.google.firebase.database.Exclude
     public void setDate(Date date) {
         mDate = date.getTime();
     }
@@ -122,13 +124,17 @@ public class Event {
     }
 
     @com.google.firebase.firestore.Exclude
-    @com.google.firebase.database.Exclude
     public String getFriendlyDate(){
         if(this.mDate > 0){
             return new SimpleDateFormat("yyyy/MM/dd, E HH'h'mm", Locale.FRANCE).format(this.mDate);
         } else {
             return "Unknown";
         }
+    }
+
+    @com.google.firebase.firestore.Exclude
+    public int getEventColor() {
+        return getEventTypeColor(this.mType);
     }
 
     @Override
@@ -151,6 +157,49 @@ public class Event {
         this.setDuration(eventToClone.getDuration());
         this.setLocation(eventToClone.getLocation());
         this.setType(eventToClone.getType());
+    }
+
+    public static int getEventTypeColor(EventType eventType){
+        int color;
+        switch (eventType) {
+            case Concert:
+                // Blue
+                color = Color.parseColor("#03A9F4");
+                break;
+            case Studio:
+                // Green
+                color = Color.parseColor("#4CAF50");
+                break;
+            case Other:
+                // Yellow
+                color = Color.parseColor("#FFC107");
+                break;
+            case Repetition:
+                // Red
+                color = Color.parseColor("#F44336");
+                break;
+            case Radio:
+                // Purple
+                color = Color.parseColor("#9C27B0");
+                break;
+            case Atelier:
+                // Blue gren
+                color = Color.parseColor("#009688");
+                break;
+            case OpenMic:
+                // Brown
+                color = Color.parseColor("#795548");
+                break;
+            case Reunion:
+                // Orange
+                color = Color.parseColor("#FF9800");
+                break;
+            default:
+                // Grey
+                color = Color.parseColor("#9E9E9E");
+                break;
+        }
+        return color;
     }
 
     public static void verify(Event event) throws EventException {

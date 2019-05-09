@@ -11,9 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.boucinho.R;
+import com.boucinho.utils.FragmentUtils;
 import com.boucinho.views.dialogs.AddingEventDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -27,13 +27,16 @@ public class MainActivity extends AppCompatActivity implements
 
         BottomNavigationView btn = findViewById(R.id.bnv_event_menu);
         btn.setOnNavigationItemSelectedListener(this);
-        loadFragment(ListEventFragment.newInstance(ListEventFragment.ListEventType.UpcomingEvents));
+
+        FragmentUtils.loadFragment(getSupportFragmentManager(),
+                ListEventFragment.newInstance(ListEventFragment.ListEventType.UpcomingEvents),
+                R.id.fl_main_content);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.event_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -78,15 +81,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
         }
 
-        loadFragment(fragment);
+        FragmentUtils.loadFragment(getSupportFragmentManager(), fragment, R.id.fl_main_content);
         menuItem.setChecked(true);
 
         return false;
-    }
-
-    private void loadFragment(Fragment fragment){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fl_event_content, fragment);
-        ft.commit();
     }
 }

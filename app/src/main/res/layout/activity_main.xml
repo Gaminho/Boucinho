@@ -7,7 +7,7 @@
 
     <!-- Main content -->
     <FrameLayout
-        android:id="@+id/fl_event_content"
+        android:id="@+id/fl_main_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
