@@ -5,26 +5,19 @@ import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
 import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
 import com.boucinho.models.Event;
-import com.boucinho.models.EventType;
-import com.boucinho.views.timepickers.DurationPicker;
-import com.boucinho.views.timepickers.MyTimePicker;
-import com.google.android.material.textfield.TextInputEditText;
+import com.boucinho.views.FormEvent;
 import com.google.firebase.firestore.CollectionReference;
 
 public class AddingEventDialog extends MyCustomViewDialogBuilder {
 
     private AddingEventDialogListener mListener;
-    private TextInputEditText mTIETTitle, mTIETDetails, mTIETLocation;
-    private MyTimePicker mMTPDate;
-    private Spinner mSpinnerEventType;
-    private DurationPicker mDPDuration;
+    private FormEvent mFormEvent;
 
     public AddingEventDialog(@NonNull Context context, AddingEventDialogListener listener) {
         super(context);
@@ -47,35 +40,15 @@ public class AddingEventDialog extends MyCustomViewDialogBuilder {
         setTitle(context.getString(R.string.add_an_event));
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.form_add_event, null);
+        View view = inflater.inflate(R.layout.event_add_fragment, null, false);
         setView(view);
 
-        mTIETTitle = view.findViewById(R.id.add_event_title);
-        mTIETDetails = view.findViewById(R.id.add_event_detail);
-        mTIETLocation = view.findViewById(R.id.add_event_location);
-        mMTPDate = view.findViewById(R.id.mtp_date);
-        mSpinnerEventType = view.findViewById(R.id.spinner_event_type);
-        mDPDuration = view.findViewById(R.id.dp_event_duration);
+        mFormEvent = view.findViewById(R.id.add_form_event);
 
         setPositiveButton(context.getString(android.R.string.ok), (dialog, which) -> {
 
-            // FIXME
-            String selectedType = String.valueOf(mSpinnerEventType.getSelectedItem());
-            EventType eventType;
-            if (context.getString(R.string.concert).equals(selectedType)){
-                eventType = EventType.Concert;
-            } else if (context.getString(R.string.repetition).equals(selectedType)) {
-                eventType = EventType.Repetition;
-            } else if (context.getString(R.string.studio).equals(selectedType)) {
-                eventType = EventType.Studio;
-            } else {
-                eventType = EventType.Other;
-            }
+            Event event = mFormEvent.getEvent();
 
-            Event event = new Event(
-                    mTIETTitle.getText().toString(), mTIETDetails.getText().toString(),
-                    mDPDuration.getDuration(), eventType, mMTPDate.getTimeInMillis(),
-                    mTIETLocation.getText().toString());
             try {
                 Event.verify(event);
 

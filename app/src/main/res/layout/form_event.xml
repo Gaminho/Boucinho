@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <Spinner
+    <com.boucinho.views.EventTypeSpinner
         android:id="@+id/spinner_event_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,4 +66,3 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>
-<!--98-->

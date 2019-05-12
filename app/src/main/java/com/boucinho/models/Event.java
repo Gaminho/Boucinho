@@ -1,15 +1,12 @@
 package com.boucinho.models;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.boucinho.R;
 import com.boucinho.views.CardEvent;
 
 import java.io.Serializable;
@@ -183,7 +180,7 @@ public class Event implements Serializable {
                 color = Color.parseColor("#9C27B0");
                 break;
             case Atelier:
-                // Blue gren
+                // Blue green
                 color = Color.parseColor("#009688");
                 break;
             case OpenMic:
@@ -203,18 +200,23 @@ public class Event implements Serializable {
     }
 
     public static void verify(Event event) throws EventException {
+        // TITLE
         if(TextUtils.isEmpty(event.getTitle())){
             throw new EventException("Title can not be null");
-//        } else if(TextUtils.isEmpty(event.getDetails())){
-//            throw new EventException("Details can not be null");
-        } else if(TextUtils.isEmpty(event.getLocation())){
-            throw new EventException("Location can not be null");
-        } else if(event.getDuration() <= 0){
-            throw new EventException("Duration can not be null");
-        } else if(event.getType() == null){
-            throw new EventException("Type can not be null");
-        } else if (event.getDate() <= 0) {
+        }
+        // DATE
+        else if (event.getDate() <= 0) {
             throw new EventException("Date can not be null");
+        }
+        // DUREE
+        else if(event.getDuration() <= 0){
+            throw new EventException("Duration can not be null");
+        }
+        // LOCATION
+        else if(TextUtils.isEmpty(event.getLocation())){
+            throw new EventException("Location can not be null");
+        } else if(event.getType() == null) {
+            throw new EventException("Type can not be null");
         }
     }
 

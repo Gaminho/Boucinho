@@ -24,6 +24,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -107,10 +108,14 @@ public class ListEventFragment extends Fragment implements CardEvent.ClickOnEven
                         }
                         break;
                 }
-                Collections.sort(mEventList, (event1, t1) ->
-                        let.equals(ListEventType.UpcomingEvents) ?
-                                (int) (event1.getDate() - t1.getDate())
-                                : - (int) (event1.getDate() - t1.getDate()));
+
+
+                Collections.sort(mEventList, Comparator.comparing(Event::getDate));
+
+                if(let.equals(ListEventType.AllEvents)){
+                    Collections.reverse(mEventList);
+                }
+
                 mEventAdapter.notifyDataSetChanged();
             }
         });
