@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.boucinho.R;
 import com.boucinho.models.Event;
-import com.boucinho.views.TextWithLabel;
+import com.gaminho.myandroidcomponents.TextWithLabel;
 
 import java.util.Locale;
 

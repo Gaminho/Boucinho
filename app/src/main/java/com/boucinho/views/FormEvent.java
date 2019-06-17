@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 import com.boucinho.R;
 import com.boucinho.models.Event;
 import com.boucinho.models.EventType;
-import com.boucinho.views.timepickers.DurationPicker;
-import com.boucinho.views.timepickers.MyTimePicker;
+import com.gaminho.myandroidcomponents.timepickers.DurationPicker;
+import com.gaminho.myandroidcomponents.timepickers.MyTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class FormEvent extends LinearLayout {

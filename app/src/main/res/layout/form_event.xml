@@ -42,12 +42,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.boucinho.views.timepickers.MyTimePicker
+    <com.gaminho.myandroidcomponents.timepickers.MyTimePicker
         android:id="@+id/mtp_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.boucinho.views.timepickers.DurationPicker
+    <com.gaminho.myandroidcomponents.timepickers.DurationPicker
         android:id="@+id/dp_event_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

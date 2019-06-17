@@ -12,6 +12,7 @@ import com.boucinho.R;
 import com.boucinho.firebase.FirestoreUtils;
 import com.boucinho.models.Event;
 import com.boucinho.views.FormEvent;
+import com.gaminho.myandroidcomponents.dialogs.MyCustomViewDialogBuilder;
 import com.google.firebase.firestore.CollectionReference;
 
 public class AddingEventDialog extends MyCustomViewDialogBuilder {
